@@ -1,20 +1,27 @@
 package com.spotify.demo.data.remote
 
+import android.content.SharedPreferences
 import com.spotify.demo.constants.ApplicationConstants
+import com.spotify.demo.constants.HeaderKeys
+import com.spotify.demo.constants.SharedPrefKeys
+import com.spotify.demo.extensions.get
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class AuthenticatorInterceptor() : Interceptor {
+class AuthenticatorInterceptor(sharedPreferences: SharedPreferences) : Interceptor {
+
+    var accessToken = ""
+
+    init {
+        accessToken = sharedPreferences[SharedPrefKeys.AccessToken, ""]
+    }
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        var request = chain.request()
-        val url: HttpUrl = request.url()
-            .newBuilder()
-            .addQueryParameter(ApplicationConstants.API_KEY, "4e5dbb0f9418ec39f763bc1014af0b15")
-            .build()
-        request = request.newBuilder().url(url).build()
-        return chain.proceed(request)
+        val request = chain.request().newBuilder()
+        if (accessToken.isNotEmpty())
+            request.addHeader(HeaderKeys.Authorization, "Bearer $accessToken")
+        return chain.proceed(request.build())
 
     }
 }

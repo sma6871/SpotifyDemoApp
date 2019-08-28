@@ -1,6 +1,7 @@
 package com.spotify.demo.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 import com.spotify.demo.R
 import com.spotify.demo.data.remote.AppService
@@ -24,7 +25,7 @@ val remoteModule = module(createdAtStart = true) {
         )
     }
 
-    single { AuthenticatorInterceptor() }
+    single { AuthenticatorInterceptor(get() as SharedPreferences) }
     single { GsonBuilder().create() }
 
     single { GsonConverterFactory.create(get()) }
