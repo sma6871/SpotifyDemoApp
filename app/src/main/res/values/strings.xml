@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Spotify Demo App</string>
+    <string name="base_url">https://api.themoviedb.org/3/</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="filter_by_release_year">Filter by release year</string>
+</resources>
