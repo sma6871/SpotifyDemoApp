@@ -1,11 +1,9 @@
 package com.spotify.demo.ui.list
 
-import com.spotify.demo.data.models.MovieItem
+import com.spotify.demo.data.models.ArtistItem
 
 sealed class ListActivityState
 object Init : ListActivityState()
-data class Loading(val isMore:Boolean) : ListActivityState()
-
-data class SuccessLoading(val movies: List<MovieItem>) : ListActivityState()
-data class SuccessLoadingMore(val movies: List<MovieItem>) : ListActivityState()
+object Loading : ListActivityState()
+data class SuccessLoading(val artists: List<ArtistItem>) : ListActivityState()
 data class ErrorLoading(val message: String) : ListActivityState()

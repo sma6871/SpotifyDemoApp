@@ -2,17 +2,15 @@ package com.spotify.demo.ui.list
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.spotify.demo.R
 import com.spotify.demo.constants.BundleExtraKeys
-import com.spotify.demo.data.models.MovieItem
+import com.spotify.demo.data.models.ArtistItem
 import com.spotify.demo.extensions.doAfterQueryTextChange
 import com.spotify.demo.extensions.plusAssign
+import com.spotify.demo.extensions.search
 import com.spotify.demo.extensions.showHide
 import com.spotify.demo.ui.base.BaseActivity
 import com.spotify.demo.ui.details.DetailsActivity
@@ -33,9 +31,6 @@ class SearchListActivity : BaseActivity() {
         observeState()
         initUi()
 
-        if (savedInstanceState == null) {
-            viewModel.initMovies()
-        }
     }
 
     private fun initUi() {
@@ -47,21 +42,20 @@ class SearchListActivity : BaseActivity() {
         bag += viewModel.listActivityState.subscribe {
             when (it) {
                 Init -> showLoading(false)
-                is Loading -> showLoading(true, it.isMore)
-                is SuccessLoading -> showList(it.movies)
+                is Loading -> showLoading(true)
+                is SuccessLoading -> showList(it.artists)
                 is ErrorLoading -> showError(it.message)
-                is SuccessLoadingMore -> appendList(it.movies)
             }
         }
     }
 
     private fun initMoviesList() {
-        adapter = ArtistListAdapter { movieData ->
+        adapter = ArtistListAdapter { artistData ->
             // Convert data to json and pass to details activity
             // As a better way, we should cache downloaded data into a persistent storage in list activity
             // and just pass movie id to details activity and then load info from storage by that id
             val intent = Intent(this, DetailsActivity::class.java)
-            intent.putExtra(BundleExtraKeys.MovieData, movieData)
+            intent.putExtra(BundleExtraKeys.MovieData, artistData)
             startActivity(intent)
         }
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -71,9 +65,9 @@ class SearchListActivity : BaseActivity() {
     }
 
     private fun initSearchView() {
-        searchView.doAfterQueryTextChange { query ->
+        //use this method to delay search during type query
+        searchView.search { query ->
             viewModel.searchArtists(query)
-            return@doAfterQueryTextChange false
         }
     }
 
@@ -83,29 +77,15 @@ class SearchListActivity : BaseActivity() {
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
 
-    private fun showList(movies: List<MovieItem>) {
-        listArtists.clearOnScrollListeners()
+    private fun showList(movies: List<ArtistItem>) {
         showLoading(false)
         adapter?.updateData(movies)
-        listArtists.smoothScrollToPosition(0)
-        listArtists.addOnScrollListener(object :
-            EndlessRecyclerOnScrollListener(listArtists.layoutManager as LinearLayoutManager) {
-            override fun onLoadMore(current_page: Int) {
-                viewModel.loadMore(current_page)
-            }
 
-        })
     }
 
-    private fun appendList(movies: List<MovieItem>) {
-        showLoading(false, true)
-        adapter?.appendData(movies)
-    }
-
-    private fun showLoading(isShow: Boolean, isMore: Boolean = false) {
+    private fun showLoading(isShow: Boolean) {
         loading.showHide(isShow)
-        if (!isMore)
-            listArtists.showHide(!isShow)
+        listArtists.showHide(!isShow)
     }
 
 }

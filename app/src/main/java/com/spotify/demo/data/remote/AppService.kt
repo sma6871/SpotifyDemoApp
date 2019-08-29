@@ -1,24 +1,29 @@
 package com.spotify.demo.data.remote
 
+import com.spotify.demo.constants.QueryParameterKeys
+import com.spotify.demo.constants.QueryType
+import com.spotify.demo.data.models.ArtistSearchResponse
+import com.spotify.demo.extensions.callRx
+import io.reactivex.Single
 import okhttp3.*
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
+import okhttp3.HttpUrl
+
 
 class AppService(
     val okHttpClient: OkHttpClient,
     val gsonConverterFactory: GsonConverterFactory,
     val baseUrl: String
 ) {
-    fun a(x: Any, y: Any): Unit {
-        okHttpClient.newCall(Request.Builder().url(baseUrl).build()).enqueue(object :Callback{
-            override fun onFailure(call: Call, e: IOException) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+    fun searchArtist(query: String): Single<ArtistSearchResponse> {
+        val urlBuilder = HttpUrl.parse("$baseUrl/search")!!.newBuilder()
+        urlBuilder.addQueryParameter(QueryParameterKeys.Q, query)
+        urlBuilder.addQueryParameter(QueryParameterKeys.Type, QueryType.Artist.value)
+        val url = urlBuilder.build().toString()
+        val request = Request.Builder()
+            .url(url)
+            .build()
 
-            override fun onResponse(call: Call, response: Response) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        })
+        return okHttpClient.callRx(request, ArtistSearchResponse::class.java)
     }
 }

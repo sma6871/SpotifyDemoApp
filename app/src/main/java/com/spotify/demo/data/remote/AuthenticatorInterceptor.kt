@@ -19,6 +19,8 @@ class AuthenticatorInterceptor(sharedPreferences: SharedPreferences) : Intercept
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
+        request.addHeader("Accept", "application/json;")
+        request.addHeader("Content-Type", "application/json;")
         if (accessToken.isNotEmpty())
             request.addHeader(HeaderKeys.Authorization, "Bearer $accessToken")
         return chain.proceed(request.build())

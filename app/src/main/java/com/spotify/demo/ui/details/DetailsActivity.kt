@@ -6,13 +6,13 @@ import com.google.gson.Gson
 import com.spotify.demo.R
 import com.spotify.demo.constants.ApplicationConstants
 import com.spotify.demo.constants.BundleExtraKeys
-import com.spotify.demo.data.models.MovieItem
+import com.spotify.demo.data.models.ArtistItem
 import com.spotify.demo.extensions.GlideScaleType
 import com.spotify.demo.extensions.fromJson
 import com.spotify.demo.extensions.loadImageWithGlide
 import com.spotify.demo.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_details.*
-import kotlinx.android.synthetic.main.list_item.txtTitle
+
 
 class DetailsActivity : BaseActivity() {
 
@@ -31,23 +31,18 @@ class DetailsActivity : BaseActivity() {
      * */
     private fun loadInfo() {
         intent?.let {
-            val movie: MovieItem? =
+            val movie: ArtistItem? =
                 Gson().fromJson(it.getStringExtra(BundleExtraKeys.MovieData) ?: "")
             movie?.let { item ->
-                txtTitle.text = item.title
-                txtDescription.text = item.overview
-                if (!item.backdropPath.isNullOrBlank())
+                txtTitle.text = item.name
+                txtDescription.text = item.type
+                if (item.images?.isNotEmpty() == true)
                     imgBackDrop.loadImageWithGlide(
-                        ApplicationConstants.BACKDROP_BASE_URL + item.backdropPath,
+                        item.images[0].url ?: "",
                         diskCacheStrategy = DiskCacheStrategy.ALL,
                         scaleType = GlideScaleType.CenterCrop
                     )
-                if (!item.posterPath.isNullOrBlank())
-                    imgPoster.loadImageWithGlide(
-                        ApplicationConstants.POSTER_BASE_URL + item.posterPath,
-                        diskCacheStrategy = DiskCacheStrategy.ALL,
-                        scaleType = GlideScaleType.CenterCrop
-                    )
+
             }
 
 

@@ -37,7 +37,6 @@ val remoteModule = module(createdAtStart = true) {
             androidContext().getString(R.string.base_url)
         )
     }
-
 }
 
 
