@@ -6,6 +6,7 @@ Simple app using Spotify APIs
 - Koin (Dependency Injection framework)
 - RxJava 2
 - OkHttp
+- Gson
 - Glide
 - AndroidX ViewModel
 - [Chuck](https://github.com/jgilfelt/chuck)
