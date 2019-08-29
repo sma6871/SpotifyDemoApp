@@ -3,6 +3,8 @@ package com.spotify.demo.ui.list
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.spotify.demo.R
@@ -50,15 +52,21 @@ class SearchListActivity : BaseActivity() {
     }
 
     private fun initMoviesList() {
-        adapter = ArtistListAdapter { artistData ->
+        adapter = ArtistListAdapter { artistData, imageView ->
             // Convert data to json and pass to details activity
             // As a better way, we should cache downloaded data into a persistent storage in list activity
             // and just pass movie id to details activity and then load info from storage by that id
+
+            val activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this,
+                imageView,
+                getString(R.string.imgtransition)
+            )
             val intent = Intent(this, DetailsActivity::class.java)
             intent.putExtra(BundleExtraKeys.MovieData, artistData)
-            startActivity(intent)
+            startActivity(intent, activityOptionsCompat.toBundle())
         }
-        val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        val linearLayoutManager = GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
         listArtists.layoutManager = linearLayoutManager
         listArtists.adapter = adapter
 

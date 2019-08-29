@@ -4,6 +4,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.spotify.demo.R
 
 /**
  * Created by Masoud Ashrafzadeh on 2017/11/10.
