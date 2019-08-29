@@ -4,33 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spotify.demo.ui.list.ListActivity">
+    tools:context="com.spotify.demo.ui.list.SearchListActivity">
 
-    <TextView
-        android:id="@+id/yearsSpinnerTitle"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
         android:layout_height="?actionBarSize"
-        android:gravity="center"
-        android:textColor="@color/colorAccent"
-        android:text="@string/filter_by_release_year"
+        app:iconifiedByDefault="false"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Spinner
-        android:id="@+id/yearsSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="?actionBarSize"
-        app:layout_constraintStart_toEndOf="@+id/yearsSpinnerTitle"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="Search Artist" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listMovies"
+        android:id="@+id/listArtists"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yearsSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        app:spanCount="2"
+
         tools:listitem="@layout/list_item" />
+
 
     <ProgressBar
         android:id="@+id/loading"

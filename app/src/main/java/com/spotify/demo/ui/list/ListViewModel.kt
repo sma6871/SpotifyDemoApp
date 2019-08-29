@@ -8,21 +8,18 @@ import io.reactivex.subjects.BehaviorSubject
 class ListViewModel(private val repository: Repository) : BaseViewModel() {
 
     val listActivityState = BehaviorSubject.create<ListActivityState>()
-    private var totalPages = 0
-    private var selectedYear = -1
 
-    fun initMovies(year: Int = -1) {
-        selectedYear = year
+
+    fun searchArtists(query: String) {
         //go to loading state
-        listActivityState.onNext(Loading(false))
+        listActivityState.onNext(Loading)
         addToDisposable {
-            repository.discoverMovies(year).subscribe(
+            repository.searchArtists(query).subscribe(
                 {
-                    totalPages = it.totalPages ?: 0
                     // show result list or empty list if the result was null
                     listActivityState.onNext(
                         SuccessLoading(
-                            it.results ?: listOf()
+                            it.artists?.items ?: listOf()
                         )
                     )
                 },
@@ -38,31 +35,5 @@ class ListViewModel(private val repository: Repository) : BaseViewModel() {
         }
     }
 
-    fun loadMore(newPageIndex: Int) {
-        if (totalPages >= newPageIndex) {
-            listActivityState.onNext(Loading(true))
-            addToDisposable {
-                repository.discoverMovies(selectedYear, newPageIndex).subscribe(
-                    {
-                        totalPages = it.totalPages ?: 0
-                        // show result list or empty list if the result was null
-                        listActivityState.onNext(
-                            SuccessLoadingMore(
-                                it.results ?: listOf()
-                            )
-                        )
-                    },
-                    {
-                        listActivityState.onNext(
-                            ErrorLoading(
-                                it.localizedMessage ?: ""
-                            )
-                        )
-                        listActivityState.onNext(Init)
-                    }
-                )
-            }
-        }
-    }
 
 }

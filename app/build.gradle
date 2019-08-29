@@ -48,6 +48,8 @@ dependencies {
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
 
+    implementation 'com.spotify.android:auth:1.1.0'
+
 
     // Test Libraries
     testImplementation 'junit:junit:4.12'

@@ -7,38 +7,31 @@
     android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:orientation="vertical"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/txtRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/material_text_display1"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/imgThumbnail"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:contentDescription="@string/artist_image"
+        android:scaleType="centerCrop"
+        android:transitionName="@string/imgtransition"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="7.2" />
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
         android:textSize="@dimen/material_text_subhead"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imgThumbnail"
+        app:layout_constraintStart_toStartOf="@+id/imgThumbnail"
+        app:layout_constraintTop_toBottomOf="@+id/imgThumbnail"
         tools:text="The Lion King" />
-
-
-    <TextView
-        android:id="@+id/txtYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitle"
-        tools:text="2019" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
