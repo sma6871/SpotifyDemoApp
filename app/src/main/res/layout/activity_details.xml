@@ -6,57 +6,72 @@
     android:layout_height="match_parent"
     tools:context="com.spotify.demo.ui.details.DetailsActivity">
 
-    <ImageView
-        android:id="@+id/imgBackDrop"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardCover"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        app:layout_constraintDimensionRatio="h,5:3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtName"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        app:layout_constraintVertical_chainStyle="packed">
 
-    <ImageView
-        android:id="@+id/imgPoster"
-        android:layout_width="120dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:adjustViewBounds="true"
-        android:maxWidth="120dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/imgBackDrop"
-        app:layout_constraintDimensionRatio="h,2:3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgBackDrop"
-        tools:srcCompat="@tools:sample/avatars" />
+        <ImageView
+            android:id="@+id/imgCover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:transitionName="@string/imgtransition"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+    </androidx.cardview.widget.CardView>
+
 
     <TextView
-        android:id="@+id/txtTitle"
+        android:id="@+id/txtName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:textSize="@dimen/material_text_title"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/material_text_display1"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtGenre"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgPoster"
-        app:layout_constraintTop_toBottomOf="@+id/imgBackDrop"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardCover"
         tools:text="Title" />
 
     <TextView
-        android:id="@+id/txtDescription"
+        android:id="@+id/txtGenre"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/txtFollowers"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgPoster"
-        tools:text="Overivew" />
+        app:layout_constraintTop_toBottomOf="@+id/txtName"
+        tools:text="Genre" />
+
+    <TextView
+        android:id="@+id/txtFollowers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtGenre"
+        tools:text="followers" />
 </androidx.constraintlayout.widget.ConstraintLayout>

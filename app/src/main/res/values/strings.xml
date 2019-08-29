@@ -5,4 +5,7 @@
     <string name="title_item_detail">Item Detail</string>
     <string name="filter_by_release_year">Filter by release year</string>
     <string name="artist_image">artist image</string>
+    <string name="login_to_spotify">Login to Spotify</string>
+    <string name="followers">Followers: %d</string>
+    <string name="imgtransition">cover-transition</string>
 </resources>

@@ -11,7 +11,7 @@ import com.spotify.demo.data.models.ArtistItem
 import com.spotify.demo.extensions.*
 import kotlinx.android.synthetic.main.list_item.view.*
 
-class ArtistListAdapter(val itemClickListener: (itemData: String) -> Unit) :
+class ArtistListAdapter(val itemClickListener: (itemData: String, imageView: ImageView) -> Unit) :
     RecyclerView.Adapter<ArtistListAdapter.ViewHolder>() {
     private var artists: List<ArtistItem> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,7 +46,7 @@ class ArtistListAdapter(val itemClickListener: (itemData: String) -> Unit) :
                 )
             }
             holder.itemView.click {
-                itemClickListener.invoke(artist.toJson())
+                itemClickListener.invoke(artist.toJson(), holder.imgThumbnail)
             }
         }
     }

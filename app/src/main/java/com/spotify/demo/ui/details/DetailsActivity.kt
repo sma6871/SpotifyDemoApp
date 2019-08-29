@@ -34,10 +34,11 @@ class DetailsActivity : BaseActivity() {
             val movie: ArtistItem? =
                 Gson().fromJson(it.getStringExtra(BundleExtraKeys.MovieData) ?: "")
             movie?.let { item ->
-                txtTitle.text = item.name
-                txtDescription.text = item.type
+                txtName.text = item.name
+                txtGenre.text = item.genres?.joinToString()
+                txtFollowers.text = getString(R.string.followers).format(item.followers?.total)
                 if (item.images?.isNotEmpty() == true)
-                    imgBackDrop.loadImageWithGlide(
+                    imgCover.loadImageWithGlide(
                         item.images[0].url ?: "",
                         diskCacheStrategy = DiskCacheStrategy.ALL,
                         scaleType = GlideScaleType.CenterCrop
