@@ -11,8 +11,8 @@ import com.spotify.demo.extensions.inflate
 import com.spotify.demo.extensions.toJson
 import kotlinx.android.synthetic.main.list_item.view.*
 
-class MovieListAdapter(val itemClickListener: (itemData: String) -> Unit) :
-    RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
+class ArtistListAdapter(val itemClickListener: (itemData: String) -> Unit) :
+    RecyclerView.Adapter<ArtistListAdapter.ViewHolder>() {
     private var movies: List<MovieItem> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(

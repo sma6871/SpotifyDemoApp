@@ -17,4 +17,8 @@ class Repository(
         authenticatorInterceptor.accessToken = accessToken
     }
 
+    fun searchArtists(query: String) {
+        return remoteRepo.searchArtists(query)
+    }
+
 }

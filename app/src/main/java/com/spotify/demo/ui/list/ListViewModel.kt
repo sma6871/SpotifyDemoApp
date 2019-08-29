@@ -65,4 +65,8 @@ class ListViewModel(private val repository: Repository) : BaseViewModel() {
         }
     }
 
+    fun searchArtists(query: String) {
+        repository.searchArtists(query)
+    }
+
 }

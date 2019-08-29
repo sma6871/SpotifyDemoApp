@@ -11,23 +11,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.spotify.demo.R
 import com.spotify.demo.constants.BundleExtraKeys
 import com.spotify.demo.data.models.MovieItem
+import com.spotify.demo.extensions.doAfterQueryTextChange
 import com.spotify.demo.extensions.plusAssign
 import com.spotify.demo.extensions.showHide
 import com.spotify.demo.ui.base.BaseActivity
 import com.spotify.demo.ui.details.DetailsActivity
 import com.spotify.demo.utils.EndlessRecyclerOnScrollListener
-import kotlinx.android.synthetic.main.activity_list.*
+import kotlinx.android.synthetic.main.activity_search_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class ListActivity : BaseActivity() {
+class SearchListActivity : BaseActivity() {
 
     private val viewModel: ListViewModel by viewModel()
-    private var adapter: MovieListAdapter? = null
+    private var adapter: ArtistListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
+        setContentView(R.layout.activity_search_list)
 
         observeState()
         initUi()
@@ -39,7 +40,7 @@ class ListActivity : BaseActivity() {
 
     private fun initUi() {
         initMoviesList()
-        initYearsSpinner()
+        initSearchView()
     }
 
     private fun observeState() {
@@ -55,7 +56,7 @@ class ListActivity : BaseActivity() {
     }
 
     private fun initMoviesList() {
-        adapter = MovieListAdapter { movieData ->
+        adapter = ArtistListAdapter { movieData ->
             // Convert data to json and pass to details activity
             // As a better way, we should cache downloaded data into a persistent storage in list activity
             // and just pass movie id to details activity and then load info from storage by that id
@@ -64,28 +65,15 @@ class ListActivity : BaseActivity() {
             startActivity(intent)
         }
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        listMovies.layoutManager = linearLayoutManager
-        listMovies.adapter = adapter
+        listArtists.layoutManager = linearLayoutManager
+        listArtists.adapter = adapter
 
     }
 
-    private fun initYearsSpinner() {
-        val years = listOf("All") + (2019 downTo 1990).toList().map { it.toString() }
-        val dataAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item, years
-        )
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        yearsSpinner.adapter = dataAdapter
-
-        yearsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View, pos: Int, id: Long) {
-                val year = parent?.getItemAtPosition(pos).toString().toIntOrNull()
-                viewModel.initMovies(year ?: -1)
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
+    private fun initSearchView() {
+        searchView.doAfterQueryTextChange { query ->
+            viewModel.searchArtists(query)
+            return@doAfterQueryTextChange false
         }
     }
 
@@ -96,12 +84,12 @@ class ListActivity : BaseActivity() {
     }
 
     private fun showList(movies: List<MovieItem>) {
-        listMovies.clearOnScrollListeners()
+        listArtists.clearOnScrollListeners()
         showLoading(false)
         adapter?.updateData(movies)
-        listMovies.smoothScrollToPosition(0)
-        listMovies.addOnScrollListener(object :
-            EndlessRecyclerOnScrollListener(listMovies.layoutManager as LinearLayoutManager) {
+        listArtists.smoothScrollToPosition(0)
+        listArtists.addOnScrollListener(object :
+            EndlessRecyclerOnScrollListener(listArtists.layoutManager as LinearLayoutManager) {
             override fun onLoadMore(current_page: Int) {
                 viewModel.loadMore(current_page)
             }
@@ -116,10 +104,8 @@ class ListActivity : BaseActivity() {
 
     private fun showLoading(isShow: Boolean, isMore: Boolean = false) {
         loading.showHide(isShow)
-        yearsSpinner.showHide(!isShow)
-        yearsSpinnerTitle.showHide(!isShow)
         if (!isMore)
-            listMovies.showHide(!isShow)
+            listArtists.showHide(!isShow)
     }
 
 }

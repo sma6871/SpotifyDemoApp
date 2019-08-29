@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 import com.spotify.demo.R
-import com.spotify.demo.data.remote.AppService
 import com.spotify.demo.data.remote.AuthenticatorInterceptor
 import com.readystatesoftware.chuck.ChuckInterceptor
+import com.spotify.demo.data.remote.AppService
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -31,7 +31,7 @@ val remoteModule = module(createdAtStart = true) {
     single { GsonConverterFactory.create(get()) }
 
     single {
-        createWebService<AppService>(
+        AppService(
             get() as OkHttpClient,
             get() as GsonConverterFactory,
             androidContext().getString(R.string.base_url)

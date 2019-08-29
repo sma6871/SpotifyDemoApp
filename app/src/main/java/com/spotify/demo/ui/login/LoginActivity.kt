@@ -1,6 +1,5 @@
 package com.spotify.demo.ui.login
 
-import android.app.ListActivity
 import android.os.Bundle
 import com.spotify.demo.R
 import com.spotify.demo.extensions.click
@@ -11,6 +10,7 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import android.content.Intent
 import com.spotify.demo.constants.ApplicationConstants
+import com.spotify.demo.ui.list.SearchListActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -56,7 +56,7 @@ class LoginActivity : BaseActivity() {
                 // Response was successful and contains auth token
                 AuthenticationResponse.Type.TOKEN -> {
                     viewModel.updateToken(response.accessToken)
-                    startActivity(Intent(this, ListActivity::class.java))
+                    startActivity(Intent(this, SearchListActivity::class.java))
                     finish()
                 }
 

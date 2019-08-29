@@ -1,18 +1,24 @@
 package com.spotify.demo.data.remote
 
-import com.spotify.demo.data.models.MovieDiscoverResponse
-import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Query
+import okhttp3.*
+import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
-interface AppService {
+class AppService(
+    val okHttpClient: OkHttpClient,
+    val gsonConverterFactory: GsonConverterFactory,
+    val baseUrl: String
+) {
+    fun a(x: Any, y: Any): Unit {
+        okHttpClient.newCall(Request.Builder().url(baseUrl).build()).enqueue(object :Callback{
+            override fun onFailure(call: Call, e: IOException) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
 
-    @GET("discover/movie")
-    fun discoverMovies(
-        @Query("primary_release_year") year: Int,
-        @Query("page") page: Int,
-        @Query("include_adult") include_adult: Boolean = false
-    ): Single<MovieDiscoverResponse>
+            override fun onResponse(call: Call, response: Response) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
 
-
+        })
+    }
 }
